@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Salary Records · EmployeeHub{% endblock %}
+{% block heading %}Salary records{% endblock %}
+{% block content %}
+<div class="page-toolbar"><div><h2>Monthly salary overview</h2><p class="muted">Salary values are employee records, not actual payments.</p></div></div>
+<div class="salary-highlight"><div><span>Total monthly payroll</span><strong>₹{{ "{:,.2f}".format(total) }}</strong></div><span class="stat-icon blue">₹</span></div>
+<form class="search-bar" method="get"><span>⌕</span><input name="q" value="{{ q }}" placeholder="Search by employee or department"><button class="btn secondary">Search</button></form>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Department</th><th>Designation</th><th>Monthly salary</th><th>Annual estimate</th></tr></thead><tbody>
+{% for e in employees %}<tr><td><div class="person"><span class="avatar">{{ e.name[0]|upper }}</span><div><b>{{ e.name }}</b><small>{{ e.email }}</small></div></div></td><td>{{ e.department }}</td><td>{{ e.designation }}</td><td><b>₹{{ "{:,.2f}".format(e.salary) }}</b></td><td>₹{{ "{:,.2f}".format(e.salary * 12) }}</td></tr>
+{% else %}<tr><td colspan="5" class="empty">No matching salary records.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

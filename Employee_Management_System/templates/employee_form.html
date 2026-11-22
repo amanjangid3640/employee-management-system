@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} · EmployeeHub{% endblock %}
+{% block heading %}{{ page_title }}{% endblock %}
+{% block content %}
+<div class="page-toolbar"><div><h2>{{ page_title }}</h2><p class="muted">Fields marked * are required.</p></div><a class="btn secondary" href="{{ url_for('employees') }}">← Back to employees</a></div>
+<form method="post" class="panel form-panel"><div class="form-grid">
+<label>Full name *<input name="name" required value="{{ employee.name if employee else '' }}" placeholder="e.g. Aman Verma"></label>
+<label>Email address *<input type="email" name="email" required value="{{ employee.email if employee else '' }}" placeholder="name@example.com"></label>
+{% if not employee %}
+<label>Employee Login ID *<input name="login_id" required autocomplete="off" placeholder="e.g. aman01"></label>
+<label>Login Password *<input type="password" name="password" required minlength="6" autocomplete="new-password" placeholder="Create at least 6 characters"></label>
+{% endif %}
+<label>Department *<select name="department" required><option value="">Choose department</option>{% for d in ['IT','HR','Finance','Sales','Marketing','Operations','Design'] %}<option value="{{ d }}" {% if employee and employee.department == d %}selected{% endif %}>{{ d }}</option>{% endfor %}</select></label>
+<label>Designation *<input name="designation" required value="{{ employee.designation if employee else '' }}" placeholder="e.g. Software Trainee"></label>
+<label>Phone number<input name="phone" inputmode="tel" value="{{ employee.phone if employee else '' }}" placeholder="Phone number"></label>
+<label>Monthly salary (₹)<input type="number" name="salary" min="0" step="0.01" value="{{ employee.salary if employee else '25000' }}"></label>
+<label>Joining date<input type="date" name="joined_on" value="{{ employee.joined_on if employee else '' }}" required></label>
+</div><div class="form-actions"><a class="btn secondary" href="{{ url_for('employees') }}">Cancel</a><button class="btn primary" type="submit">Save employee</button></div></form>
+{% endblock %}

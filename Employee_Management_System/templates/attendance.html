@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Attendance · EmployeeHub{% endblock %}
+{% block heading %}{{ 'My Attendance' if employee_mode else 'Attendance Overview' }}{% endblock %}
+{% block content %}
+<div class="page-toolbar"><div><h2>{{ 'Your daily attendance' if employee_mode else 'Daily attendance records' }}</h2><p class="muted">{% if employee_mode %}You can mark only your own attendance for today.{% else %}Admin can view records but cannot change employee attendance.{% endif %}</p></div></div>
+<form method="get" class="search-bar date-search"><label for="work_date">Attendance date</label><input id="work_date" type="date" name="work_date" value="{{ selected_date }}" required><button class="btn secondary">Load date</button></form>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Department</th><th>Status</th></tr></thead><tbody>
+{% for e in rows %}<tr><td><div class="person"><span class="avatar">{{ e.name[0]|upper }}</span><b>{{ e.name }}</b></div></td><td>{{ e.department }}</td><td>{% if e.status %}<span class="pill">{{ e.status }}</span>{% else %}<span class="status pending">Not marked</span>{% endif %}</td></tr>
+{% else %}<tr><td colspan="3" class="empty">No attendance records found.</td></tr>{% endfor %}
+</tbody></table></div>{% if employee_mode %}<form method="post" class="form-actions"><input type="hidden" name="work_date" value="{{ selected_date }}"><label for="status">Mark status</label><select id="status" name="status" class="status-select"><option>Present</option><option>Late</option><option>Leave</option></select><button class="btn primary" type="submit" {% if selected_date != today|default(selected_date) %}disabled{% endif %}>Save my attendance</button></form>{% else %}<div class="panel-foot">Read-only view. Attendance changes are controlled by each employee login.</div>{% endif %}</div>
+{% endblock %}

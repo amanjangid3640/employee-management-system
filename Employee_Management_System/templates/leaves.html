@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Leave Management · EmployeeHub{% endblock %}
+{% block heading %}Leave management{% endblock %}
+{% block content %}
+<div class="page-toolbar"><div><h2>Leave requests</h2><p class="muted">{{ 'Request leave for yourself and track approval status.' if employee_mode else 'Create requests and review employee leave status.' }}</p></div></div>
+<form method="post" class="panel form-panel"><h3>New leave request</h3><div class="form-grid">
+{% if not employee_mode %}<label>Employee *<select name="employee_id" required><option value="">Select employee</option>{% for e in employees %}<option value="{{ e.id }}">{{ e.name }}</option>{% endfor %}</select></label>{% else %}<div class="employee-note">Your leave request will be linked to your employee account.</div>{% endif %}
+<label>Reason *<input name="reason" required placeholder="e.g. Personal work"></label>
+<label>Start date *<input type="date" name="start_date" required></label><label>End date *<input type="date" name="end_date" required></label>
+</div><div class="form-actions"><button class="btn primary" type="submit" {% if not employee_mode and not employees %}disabled{% endif %}>＋ Create request</button></div></form>
+<div class="panel"><div class="panel-head"><div><h3>{{ 'My requests' if employee_mode else 'All requests' }}</h3><p class="muted">Newest requests appear first.</p></div></div><div class="table-wrap"><table><thead><tr>{% if not employee_mode %}<th>Employee</th>{% endif %}<th>Dates</th><th>Reason</th><th>Status</th>{% if not employee_mode %}<th>Review</th>{% endif %}</tr></thead><tbody>
+{% for l in leaves %}<tr>{% if not employee_mode %}<td><b>{{ l.name }}</b><small class="cell-sub">{{ l.department }}</small></td>{% endif %}<td>{{ l.start_date }}<small class="cell-sub">to {{ l.end_date }}</small></td><td>{{ l.reason }}</td><td><span class="status {{ l.status|lower }}">{{ l.status }}</span></td>{% if not employee_mode %}<td>{% if l.status == 'Pending' %}<div class="actions"><form method="post" action="{{ url_for('update_leave', leave_id=l.id, status='Approved') }}"><button class="btn tiny success">Approve</button></form><form method="post" action="{{ url_for('update_leave', leave_id=l.id, status='Rejected') }}"><button class="btn tiny danger">Reject</button></form></div>{% else %}—{% endif %}</td>{% endif %}</tr>
+{% else %}<tr><td colspan="5" class="empty">No leave requests yet.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

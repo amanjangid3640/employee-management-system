@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Login · EmployeeHub{% endblock %}
+{% block public_content %}
+<div class="login-wrap sparkle-theme">
+  <div class="login-art"><div class="brand light"><span class="brand-mark">✦</span><span>EmployeeHub<small>Management Portal</small></span></div><div class="login-message"><span class="eyebrow">PEOPLE · PROCESSES · PROGRESS</span><h1>One workplace.<br>Two secure portals.</h1><p>Choose your account type to manage work, attendance, leave requests and employee records.</p></div><div class="login-foot">SE PBL · Employee Management System</div></div>
+  <div class="login-panel"><form method="post" class="login-card"><div class="mobile-brand">✦ EMPLOYEEHUB</div><span class="eyebrow">WELCOME BACK</span><h2>Sign in</h2><p class="muted">Choose Admin or Employee login.</p>
+    <div class="role-options"><label class="role-option"><input type="radio" name="role" value="admin" checked><span>✦<b>Admin Login</b><small>Manage employee records</small></span></label><label class="role-option"><input type="radio" name="role" value="employee"><span>✧<b>Employee Login</b><small>Mark your own attendance</small></span></label></div>
+    <label>Username / Employee email<input name="username" required autocomplete="username" placeholder="admin or employee email"></label><label>Password<input name="password" type="password" required autocomplete="current-password" placeholder="Enter password"></label><button class="btn primary full" type="submit">Sign in <span>→</span></button>
+    <div class="demo-note"><b>Demo logins</b><br><b>Admin:</b> <code>admin</code> / <code>admin123</code><br><b>Demo Employee ID:</b> <code>aman</code><br><b>Password:</b> <code>employee123</code><br><small>New employees use the Login ID and password created by admin.</small></div>
+  </form></div>
+</div>
+{% endblock %}
